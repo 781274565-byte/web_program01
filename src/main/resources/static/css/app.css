@@ -1,0 +1,322 @@
+/*全局CSS变量*/
+:root {
+    color-scheme: light;
+    --bg: #f4f7fb;
+    --surface: #ffffff;
+    --surface-alt: #eef3f8;
+    --text: #1f2937;
+    --muted: #667085;
+    --border: #d6dde7;
+    --accent: #1d4ed8;
+    --accent-hover: #1e40af;
+    --danger-bg: #fef2f2;
+    --danger-text: #b91c1c;
+    --success-bg: #ecfdf3;
+    --success-text: #047857;
+}
+
+/*所有元素的宽高计算都包含padding和border*/
+* {
+    box-sizing: border-box;
+}
+
+/*全局基础样式*/
+body {
+    margin: 0; /*页面无外边距*/
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 100%); /*渐变背景*/
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/*链接*/
+a {
+    color: var(--accent);
+    text-decoration: none; /*无下划线*/
+}
+
+a:hover {
+    text-decoration: underline; /*鼠标悬停时显示下划线*/
+}
+
+/*Login,dashboard,admin外壳
+内容在页面居中显示*/
+.auth-shell,
+.dashboard-shell,
+.admin-shell {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+/*Login,dashboard,admin行定义卡片样式*/
+.auth-card,
+.dashboard-card,
+.admin-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px; /*圆角半径*/
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08); /*卡片添加阴影*/
+    padding: 32px;
+}
+
+/*标题、副标题*/
+.auth-card h1,
+.dashboard-card h1,
+.admin-card h1 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+}
+
+.auth-subtitle,
+.dashboard-text,
+.dashboard-kicker {
+    color: var(--muted);
+}
+
+.auth-subtitle,
+.dashboard-text {
+    margin-top: 0;
+}
+
+/*login or register form*/
+.auth-form {
+    display: grid; /*让label变成Grid布局容器*/
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.auth-form label {
+    display: grid;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font: inherit; /*继承父元素的字体设置*/
+    background: #fff;
+}
+
+/*获得焦点*/
+.auth-form input:focus {
+    outline: 2px solid rgba(29, 78, 216, 0.16); /*给输入框外面加一圈轮廓线*/
+    border-color: var(--accent);
+}
+
+/*按钮样式*/
+.auth-form button {
+    border: 0;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    padding: 12px 16px;
+    cursor: pointer; /*鼠标移动到这个元素上时，鼠标指针变成手*/
+}
+
+.auth-form button:hover { /*:hover：鼠标悬停状态*/
+    background: var(--accent-hover);
+}
+
+.alert, /* (,) :多个选择器共用同一组样式*/
+.field-error {
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 12px;
+}
+
+/*错误提示:浅红背景+深红文字*/
+.alert.error,
+.field-error {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+/*成功提示:浅绿背景+深绿文字*/
+.alert.success {
+    background: var(--success-bg);
+    color: var(--success-text);
+}
+
+.field-error {
+    margin-top: -8px; /*靠近对应输入框*/
+    font-size: 0.92rem;
+}
+
+.auth-link {
+    margin-top: 20px;
+}
+
+/*dashboard-links*/
+.dashboard-links {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.dashboard-links a {
+    display: block;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-alt);
+    font-weight: 600;
+}
+
+/*文件管理页面布局*/
+.files-shell {
+    min-height: 100vh;
+    padding: 24px;
+    display: grid;
+    place-items: start center; /*垂直方向靠上，水平方向居中*/
+}
+
+.files-card {
+    width: 100%;
+    max-width: 980px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+    padding: 32px;
+}
+
+.admin-card {
+    width: 100%;
+    max-width: 1120px;
+}
+
+.files-header {
+    display: flex; /*.files-header变成Flex布局容器:子元素默认横向排列*/
+    justify-content: space-between;/*第一个元素靠左，最后一个元素靠右，中间空白自动撑开*/
+    gap: 16px;
+    align-items: flex-start; /*顶部对齐*/
+    flex-wrap: wrap; /*屏幕窄时自动换行*/
+}
+
+/*文件上传编辑表单*/
+.files-form {
+    display: grid;
+    gap: 16px;
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface-alt);
+}
+
+.files-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /*两列布局，每列宽度平均*/
+    gap: 16px;
+}
+
+.files-form label {
+    display: grid;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.files-form input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font: inherit;
+    background: #fff;
+}
+
+/*button*/
+.files-form button,
+.button-link,
+.button-danger {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.files-form button {
+    background: var(--accent);
+    color: #fff;
+    justify-self: start;
+}
+
+.button-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-alt);
+    color: var(--text);
+    text-decoration: none;
+}
+
+.button-danger {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+/*table*/
+.files-table-section {
+    margin-top: 24px;
+}
+
+.admin-section {
+    margin-top: 28px;
+}
+
+.admin-section h2 {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+}
+
+/*当表格太宽时，可以横向滚动*/
+.table-wrap {
+    overflow-x: auto;
+}
+
+.files-table {
+    width: 100%; /*表格宽度占满父容器*/
+    border-collapse: collapse;/*边框合并*/
+}
+
+.files-table th,
+.files-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+}
+
+/*操作按钮*/
+.files-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.files-actions form {
+    margin: 0; /*清除表单外边距，让表单里的按钮和其他按钮在同一行整齐排列*/
+}
+
+/*移动端适配(When屏幕宽度小于等于720px)*/
+@media (max-width: 720px) {
+    .files-form-grid {
+        grid-template-columns: 1fr; /*文件表单从两列变成一列*/
+    }
+
+    .files-card {
+        padding: 24px; /*文件卡片内边距从32px减少到24px*/
+    }
+}

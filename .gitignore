@@ -1,3 +1,5 @@
 .worktrees/
 target/
 uploads/
+run-logs/
+mysql-start-test*.log

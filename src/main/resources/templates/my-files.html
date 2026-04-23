@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Files</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+    <!--my-files.html 是文件管理页面:
+    负责展示当前登录用户的文件、提供上传入口，并给每个文件提供下载、分享和删除操作
+    -->
+<main class="files-shell">
+    <section class="files-card">
+        <!--files-header-->
+        <div class="files-header">
+            <div>
+                <p class="dashboard-kicker">Campus Fast Transfer</p>
+                <h1>My Files</h1>
+                <!--如果currentUser != null,th:text会把strong里的默认文本替换成真实username-->
+                <p class="dashboard-text" th:if="${currentUser != null}">
+                    Signed in as <strong th:text="${currentUser.username}">user</strong>.
+                </p>
+            </div>
+            <!--返回dashboard-->
+            <a class="button-link" th:href="@{/dashboard}">Back to dashboard</a>
+        </div>
+
+        <!--uploadForm-->
+        <!--如果没选文件，就重新返回my-files.html并显示错误；如果成功，就保存文件并重定向回/files (FileController.java (line 40))-->
+        <!--th:object="${uploadForm}"表示表单绑定后端UploadForm对象-->
+        <form class="files-form" th:action="@{/files/upload}" th:object="${uploadForm}" method="post" enctype="multipart/form-data">
+            <p class="alert error" th:if="${uploadError}" th:text="${uploadError}">Please select a file to upload.</p>
+
+            <div class="files-form-grid">
+                <label>
+                    <span>File</span>
+                    <input type="file" th:field="*{file}"> <!--UploadForm.java (line 7)-->
+                </label>
+                <label>
+                    <span>Expire time</span>
+                    <input type="datetime-local" th:field="*{expireTime}"> <!--UploadForm.java (line 7)-->
+                </label>
+            </div>
+
+            <button type="submit">Upload File</button>
+        </form>
+
+        <!--file list table-->
+        <section class="files-table-section">
+            <table class="files-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Uploaded At</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--遍历后端传来的文件列表:file是FileRecord对象(FileRecord.java (line 8))-->
+                <tr th:each="file : ${files}">
+                    <td>
+                        <!--file.originalName-->
+                        <div th:text="${file.originalName}">report.pdf</div>
+                        <!--如果这个文件已经被分享，就在文件名下面显示它的分享码-->
+                        <small class="dashboard-text" th:if="${file.shared}" th:text="${file.shareCode}">ABC12345</small>
+                    </td>
+                    <!--filesize-->
+                    <td th:text="${file.fileSize}">1024</td>
+                    <!--在表格单元格里显示文件上传时间；如果上传时间为空，就显示 (-)-->
+                    <td th:text="${file.uploadedAt != null ? #temporals.format(file.uploadedAt, 'yyyy-MM-dd HH:mm') : '-'}">2026-04-19 10:00</td>
+                    <!--files-actions-->
+                    <td>
+                        <div class="files-actions">
+                            <!--点击后访问 /files/download/{id}，由FileController.java (line 55)处理。
+                            后端检查文件是不是当前用户自己的文件，避免下载他人文件-->
+                            <a class="button-link" th:href="@{|/files/download/${file.id}|}">Download</a>
+                            <!--开启或刷新分享(提交到 /share/enable/{id}，由ShareController.java (line 52)处理)-->
+                            <form th:action="@{|/share/enable/${file.id}|}" method="post">
+                                <!--按钮文字根据状态变化:如果文件已经分享，就显示Refresh Share；否则显示Enable Share-->
+                                <button class="button-link" type="submit" th:text="${file.shared ? 'Refresh Share' : 'Enable Share'}">Enable Share</button>
+                            </form>
+                            <!--删除(调用softDeleteOwnedFile,数据库里标记删除,FileController.java (line 71))-->
+                            <form th:action="@{|/files/delete/${file.id}|}" method="post">
+                                <button class="button-danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--如果当前用户没上传任何文件，则显示提示文字-->
+            <p class="dashboard-text" th:if="${#lists.isEmpty(files)}">No files uploaded yet.</p>
+        </section>
+    </section>
+</main>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--orz-->

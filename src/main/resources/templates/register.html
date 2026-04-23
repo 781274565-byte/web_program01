@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <!--加载app.css(line 1)-->
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<main class="auth-shell">           <!--居中布局-->
+    <section class="auth-card">     <!--注册框-->
+        <h1>Create Account</h1>
+        <p class="auth-subtitle">Register a new campus transfer account.</p>
+
+        <!--用户名重复、身份证号重复时，后端会在AuthController.java (line 73)捕获异常-->
+        <div class="alert error" th:if="${registrationError}" th:text="${registrationError}"></div>
+
+        <!--表单提交到/register, 表单绑定后端传来的registerForm对象(RegisterForm.java (line 5))-->
+        <form class="auth-form" th:action="@{/register}" th:object="${registerForm}" method="post">
+            <!--名字-->
+            <label>
+                <span>Username</span>
+                <!--通过th:field绑定到registerForm.username-->
+                <input type="text" th:field="*{username}" autocomplete="username">
+            </label>
+            <!--如果为空，页面会显示Username is required-->
+            <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+
+            <!--密码-->
+            <label>
+                <span>Password</span>
+                <input type="password" th:field="*{password}" autocomplete="new-password">
+            </label>
+            <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+            <!--shenfenzheng_lol-->
+            <label>
+                <span>Identity No</span>
+                <input type="text" th:field="*{identityNo}" autocomplete="off">
+            </label>
+            <div class="field-error" th:if="${#fields.hasErrors('identityNo')}" th:errors="*{identityNo}"></div>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <!--/login超链接-->
+        <p class="auth-link">Already have an account? <a th:href="@{/login}">Login</a></p>
+        
+    </section>
+</main>
+</body>
+</html>
+<!--
+        1.访问/register
+        2.AuthController.registerPage()创建RegisterForm
+        3.返回register.html
+        4.填写信息
+        5.点击Register，POST到/register
+        6.后端校验RegisterForm
+        7.如果为空，回到注册页显示字段错误
+        8.如果名字或身份证重复，显示 registrationError
+        9.如果注册成功，跳转到/login（后端）
+        -->

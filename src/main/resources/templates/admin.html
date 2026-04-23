@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+    <script th:src="@{/js/app.js}" src="/js/app.js" defer></script>
+</head>
+<body>
+<main class="admin-shell">
+    <section class="admin-card">
+        <div class="files-header">
+            <div>
+                <p class="dashboard-kicker">Campus Fast Transfer</p>
+                <h1>Admin Dashboard</h1>
+                <p class="dashboard-text" th:if="${currentUser != null}">
+                    Signed in as <strong th:text="${currentUser.username}">admin</strong>.
+                </p>
+            </div>
+            <!--跳转dashboard-->
+            <a class="button-link" th:href="@{/dashboard}">Back to dashboard</a>
+        </div>
+
+        <!--Users:用户表格-->
+        <section class="admin-section">
+            <h2>Users</h2>
+            <div class="table-wrap">
+                <table class="files-table">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Created At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--遍历后端传来的users集合，每个用户生成一行-->
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.username}">ZQY</td>
+                        <td th:text="${user.role}">USER</td>
+                        <!--如果时间为空，就显示(-).,并且按创建时间倒序展示，最新注册的用户排前面-->
+                        <td th:text="${user.createdAt != null ? #temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm') : '-'}">2026-04-01 00:00</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--如果为空集，No users available.-->
+                <p class="dashboard-text" th:if="${#lists.isEmpty(users)}">No users available.</p>
+            </div>
+        </section>
+
+        <!--Files-->
+        <section class="admin-section">
+            <h2>Files</h2>
+            <div class="table-wrap">
+                <table class="files-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Owner ID</th>
+                        <th>Size</th>
+                        <th>Status</th>
+                        <th>Uploaded At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--遍历后端传来的files集合-->
+                    <tr th:each="file : ${files}">
+                        <td>
+                            <div th:text="${file.originalName}">report.pdf</div>
+                        </td>
+                        <td th:text="${file.ownerId}">1</td>
+                        <td th:text="${file.fileSize}">1024</td>
+                        <!--如果文件被删除，显示 Deleted;否则如果文件已分享，显示 Shared;否则显示 Private-->
+                        <td th:text="${file.deleted ? 'Deleted' : (file.shared ? 'Shared' : 'Private')}">Private</td>
+                        <td th:text="${file.uploadedAt != null ? #temporals.format(file.uploadedAt, 'yyyy-MM-dd HH:mm') : '-'}">2026-04-19 10:00</td>
+                        <!--上传时间倒序展示，最新上传的文件排前面-->
+                    </tr>
+                    </tbody>
+                </table>
+                <!--<!--如果为空集，No files available.-->-->
+                <p class="dashboard-text" th:if="${#lists.isEmpty(files)}">No files available.</p>
+            </div>
+        </section>
+    </section>
+</main>
+</body>
+</html>

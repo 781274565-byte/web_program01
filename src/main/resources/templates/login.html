@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--声明Thymeleaf命名空间，所以页面里可以使用 th:xxx 这样的模板属性-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<!--登录页面居中和卡片样式-->
+<main class="auth-shell">        <!--auth-shell：让页面至少占满一屏，并居中内容-->
+    <section class="auth-card">  <!--auth-card：控制登录卡片宽度、背景、边框、阴影-->
+        <h1>Campus Fast Transfer</h1>
+        <p class="auth-subtitle">Sign in to continue.</p>
+        
+        <!--registrationSuccess：注册成功后跳转回登录页时显示,From AuthController.java (line 74)-->
+        <div class="alert success" th:if="${registrationSuccess}" th:text="${registrationSuccess}"></div>
+        
+        <!--loginError：登录失败时显示,from AuthController.java (line 50)-->
+        <div class="alert error" th:if="${loginError}" th:text="${loginError}"></div>
+
+        <!--表单绑定后端传来的LoginForm对象(AuthController.java (line 29))-->
+        <form class="auth-form" th:action="@{/login}" th:object="${loginForm}" method="post">
+            <label>
+                <span>Username</span>
+                <!--th:field="*{username}"自动绑定LoginForm.username字段,from LoginForm.java (line 6)-->
+                <input type="text" th:field="*{username}" autocomplete="username">
+            </label>
+            <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+
+            <label>
+                <span>Password</span>
+                <!--密码为空时,LoginForm校验会给出@NotBlank(message = "Password is required")-->
+                <input type="password" th:field="*{password}" autocomplete="current-password">
+            </label>
+            <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            
+            <!--表单提交到/login，进入：AuthController.java (line 35)-->
+            <button type="submit">Login</button>
+            
+        </form>
+
+        <!--AuthController.java (line 55)/register注册超链接-->
+        <p class="auth-link">No account? <a th:href="@{/register}">Register</a></p>
+    </section>
+</main>
+</body>
+</html>
+<!--
+1.访问/register
+2.AuthController.registerPage()创建RegisterForm
+3.返回register.html
+4.填写信息
+5.点击Register，POST到/register
+6.后端校验RegisterForm
+7.如果为空，回到注册页显示字段错误
+8.如果名字或身份证重复，显示 registrationError
+9.如果注册成功，跳转到/login（后端）
+-->

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<main class="dashboard-shell">       <!--依旧CSS-->
+    <section class="dashboard-card"> <!--依旧CSS-->
+        <p class="dashboard-kicker">Campus Fast Transfer</p>
+        <h1>Dashboard</h1>
+        <!--如果!=NULL，则显示text(th:text="${currentUser.username}"将<strong>里的默认文本user替换成当前登录用户的名字)-->
+        <!--currentUser由后端传进来，From AuthController.java(line 88)-->
+        <p class="dashboard-text" th:if="${currentUser != null}">Signed in as <strong th:text="${currentUser.username}">user</strong>.</p>
+
+        <nav class="dashboard-links" aria-label="Dashboard shortcuts">
+            <a th:href="@{/files}">Files</a> <!--跳转到/files，进入个人文件管理页面-->
+            <a th:href="@{/share}">Share</a> <!--跳转到/share，进入分享码相关页面-->
+            <!--跳转到 /admin，仅限管理员，currentUser != null and currentUser.role == 'ADMIN'-->
+            <a th:if="${currentUser != null and currentUser.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
+            <a th:href="@{/logout}">Logout</a> <!--跳转到/logout，退出登录。后端会清空session并定位回login，（AuthController.java (line 44)）-->
+        </nav>
+    </section>
+</main>
+</body>
+</html>
+<!--
+1.用户提交登录表单。
+2.后端验证用户名和密码。
+3.验证成功后，把用户对象保存到session的currentUser。
+4.重定向到/dashboard。
+5./dashboard控制器取出currentUser。
+6.把currentUser传给dashboard.html。
+7.页面根据用户信息显示用户名和管理员入口。
+-->

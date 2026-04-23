@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Access</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<main class="files-shell"> <!--app.css (line 124)-->
+    <section class="files-card"> <!--app.css (line 124)-->
+        <div class="files-header">
+            <div>
+                <p class="dashboard-kicker">Campus Fast Transfer</p>
+                <h1>Share Access</h1>
+                <!--如果后端传入了currentUser，页面就显示当前登录用户名（ShareController.java (line 40)）-->
+                <p class="dashboard-text" th:if="${currentUser != null}">
+                    Signed in as <strong th:text="${currentUser.username}">user</strong>.
+                </p>
+            </div>
+            <!--跳转dashboard-->
+            <a class="button-link" th:href="@{/dashboard}">Back to dashboard</a>
+        </div>
+
+        <!--显示成功或失败提示-->
+        <!--如果用户从“我的文件”里启用了分享，后端会重定向到/share?code=xxxx，
+        然后ShareController.sharePage()把这个code放进generatedShareCode,
+        页面显示Share enabled. Copy ......-->
+        <p class="alert success" th:if="${generatedShareCode}" th:text="'Share enabled. Copy this code: ' + ${generatedShareCode}">Share enabled. Copy this code: ABC12345</p>
+        <!--如果分享码无效、过期或为空，后端会传入shareError，页面显示错误消息-->
+        <p class="alert error" th:if="${shareError}" th:text="${shareError}">Share code is invalid or has expired.</p>
+
+        <!--查询分享码表单-->
+        <form class="files-form" th:action="@{/share}" method="post">
+            <label>
+                <span>Share code</span>
+                <!--用户输入分享码后，表单会用POST提交到/share(lookupShare() in ShareController.java (line 70))-->
+                <input type="text" name="shareCode" th:value="${shareCode}" placeholder="Enter share code">
+            </label>
+            <button type="submit">Lookup Share</button>
+        </form>
+
+        <!--When sharedFile != null,原始文件名,文件大小(byte),分享码-->
+        <section class="share-result" th:if="${sharedFile != null}">
+            <h2>Shared File</h2>
+            <div class="share-details">
+                <!--实体类FileRecord.java (line 19)-->
+                <p><strong>Name:</strong> <span th:text="${sharedFile.originalName}">report.pdf</span></p>
+                <p><strong>Size:</strong> <span th:text="${sharedFile.fileSize}">1024</span></p>
+                <p><strong>Share code:</strong> <span th:text="${sharedFile.shareCode}">ABC12345</span></p>
+            </div>
+            <!--生成链接地址like：/share/download/ABC12345。downloadSharedFile() in  ShareController.java (line 93)会再次验证分享码，加载文件资源，并返回下载响应-->
+            <a class="button-link" th:href="@{|/share/download/${sharedFile.shareCode}|}">Download Shared File</a>
+        </section>
+    </section>
+</main>
+</body>
+</html>

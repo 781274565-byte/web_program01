@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: campus-fast-transfer
+  datasource:
+    url: jdbc:mysql://localhost:3306/campus_fast_transfer?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  sql:
+    init:
+      mode: always
+server:
+  port: 8080
+app:
+  upload-dir: uploads
