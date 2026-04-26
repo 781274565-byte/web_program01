@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <!--加载app.css(line 1)-->
+    <!--加载app.css-->
     <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
         <!--用户名重复、身份证号重复时，后端会在AuthController.java (line 73)捕获异常-->
         <div class="alert error" th:if="${registrationError}" th:text="${registrationError}"></div>
 
-        <!--表单提交到/register, 表单绑定后端传来的registerForm对象(RegisterForm.java (line 5))-->
+        <!--表单提交到/register, 表单绑定后端传来的registerForm对象(RegisterForm.java)-->
         <form class="auth-form" th:action="@{/register}" th:object="${registerForm}" method="post">
             <!--名字-->
             <label>

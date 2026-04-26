@@ -27,7 +27,7 @@
         </div>
 
         <!--uploadForm-->
-        <!--如果没选文件，就重新返回my-files.html并显示错误；如果成功，就保存文件并重定向回/files (FileController.java (line 40))-->
+        <!--如果没选文件，就重新返回my-files.html并显示错误；如果成功，就保存文件并重定向回/files (FileController.java)-->
         <!--th:object="${uploadForm}"表示表单绑定后端UploadForm对象-->
         <form class="files-form" th:action="@{/files/upload}" th:object="${uploadForm}" method="post" enctype="multipart/form-data">
             <p class="alert error" th:if="${uploadError}" th:text="${uploadError}">Please select a file to upload.</p>
@@ -35,11 +35,11 @@
             <div class="files-form-grid">
                 <label>
                     <span>File</span>
-                    <input type="file" th:field="*{file}"> <!--UploadForm.java (line 7)-->
+                    <input type="file" th:field="*{file}"> <!--UploadForm.java-->
                 </label>
                 <label>
                     <span>Expire time</span>
-                    <input type="datetime-local" th:field="*{expireTime}"> <!--UploadForm.java (line 7)-->
+                    <input type="datetime-local" th:field="*{expireTime}"> <!--UploadForm.java-->
                 </label>
             </div>
 
@@ -58,7 +58,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--遍历后端传来的文件列表:file是FileRecord对象(FileRecord.java (line 8))-->
+                <!--遍历后端传来的文件列表:file是FileRecord对象(FileRecord.java)-->
                 <tr th:each="file : ${files}">
                     <td>
                         <!--file.originalName-->
@@ -73,15 +73,15 @@
                     <!--files-actions-->
                     <td>
                         <div class="files-actions">
-                            <!--点击后访问 /files/download/{id}，由FileController.java (line 55)处理。
+                            <!--点击后访问 /files/download/{id}，由FileController.java处理。
                             后端检查文件是不是当前用户自己的文件，避免下载他人文件-->
                             <a class="button-link" th:href="@{|/files/download/${file.id}|}">Download</a>
-                            <!--开启或刷新分享(提交到 /share/enable/{id}，由ShareController.java (line 52)处理)-->
+                            <!--开启或刷新分享(提交到 /share/enable/{id}，由ShareController.java处理)-->
                             <form th:action="@{|/share/enable/${file.id}|}" method="post">
                                 <!--按钮文字根据状态变化:如果文件已经分享，就显示Refresh Share；否则显示Enable Share-->
                                 <button class="button-link" type="submit" th:text="${file.shared ? 'Refresh Share' : 'Enable Share'}">Enable Share</button>
                             </form>
-                            <!--删除(调用softDeleteOwnedFile,数据库里标记删除,FileController.java (line 71))-->
+                            <!--删除(调用softDeleteOwnedFile,数据库里标记删除,FileController.java)-->
                             <form th:action="@{|/files/delete/${file.id}|}" method="post">
                                 <button class="button-danger" type="submit">Delete</button>
                             </form>

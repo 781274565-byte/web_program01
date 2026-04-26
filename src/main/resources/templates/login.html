@@ -14,17 +14,17 @@
         <h1>Campus Fast Transfer</h1>
         <p class="auth-subtitle">Sign in to continue.</p>
         
-        <!--registrationSuccess：注册成功后跳转回登录页时显示,From AuthController.java (line 74)-->
+        <!--registrationSuccess：注册成功后跳转回登录页时显示,From AuthController.java -->
         <div class="alert success" th:if="${registrationSuccess}" th:text="${registrationSuccess}"></div>
         
-        <!--loginError：登录失败时显示,from AuthController.java (line 50)-->
+        <!--loginError：登录失败时显示,from AuthController.java-->
         <div class="alert error" th:if="${loginError}" th:text="${loginError}"></div>
 
-        <!--表单绑定后端传来的LoginForm对象(AuthController.java (line 29))-->
+        <!--表单绑定后端传来的LoginForm对象(AuthController.java )-->
         <form class="auth-form" th:action="@{/login}" th:object="${loginForm}" method="post">
             <label>
                 <span>Username</span>
-                <!--th:field="*{username}"自动绑定LoginForm.username字段,from LoginForm.java (line 6)-->
+                <!--th:field="*{username}"自动绑定LoginForm.username字段,from LoginForm.java -->
                 <input type="text" th:field="*{username}" autocomplete="username">
             </label>
             <div class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
@@ -36,7 +36,7 @@
             </label>
             <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             
-            <!--表单提交到/login，进入：AuthController.java (line 35)-->
+            <!--表单提交到/login，进入：AuthController.java -->
             <button type="submit">Login</button>
             
         </form>

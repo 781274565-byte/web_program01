@@ -20,7 +20,7 @@
             <a th:href="@{/share}">Share</a> <!--跳转到/share，进入分享码相关页面-->
             <!--跳转到 /admin，仅限管理员，currentUser != null and currentUser.role == 'ADMIN'-->
             <a th:if="${currentUser != null and currentUser.role == 'ADMIN'}" th:href="@{/admin}">Admin</a>
-            <a th:href="@{/logout}">Logout</a> <!--跳转到/logout，退出登录。后端会清空session并定位回login，（AuthController.java (line 44)）-->
+            <a th:href="@{/logout}">Logout</a> <!--跳转到/logout，退出登录。后端会清空session并定位回login，（AuthController.java）-->
         </nav>
     </section>
 </main>

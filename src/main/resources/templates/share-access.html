@@ -7,13 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
 </head>
 <body>
-<main class="files-shell"> <!--app.css (line 124)-->
-    <section class="files-card"> <!--app.css (line 124)-->
+<main class="files-shell"> <!--app.css-->
+    <section class="files-card"> <!--app.css-->
         <div class="files-header">
             <div>
                 <p class="dashboard-kicker">Campus Fast Transfer</p>
                 <h1>Share Access</h1>
-                <!--如果后端传入了currentUser，页面就显示当前登录用户名（ShareController.java (line 40)）-->
+                <!--如果后端传入了currentUser，页面就显示当前登录用户名（ShareController.java）-->
                 <p class="dashboard-text" th:if="${currentUser != null}">
                     Signed in as <strong th:text="${currentUser.username}">user</strong>.
                 </p>
@@ -34,7 +34,7 @@
         <form class="files-form" th:action="@{/share}" method="post">
             <label>
                 <span>Share code</span>
-                <!--用户输入分享码后，表单会用POST提交到/share(lookupShare() in ShareController.java (line 70))-->
+                <!--用户输入分享码后，表单会用POST提交到/share(lookupShare() in ShareController.java)-->
                 <input type="text" name="shareCode" th:value="${shareCode}" placeholder="Enter share code">
             </label>
             <button type="submit">Lookup Share</button>
@@ -44,12 +44,12 @@
         <section class="share-result" th:if="${sharedFile != null}">
             <h2>Shared File</h2>
             <div class="share-details">
-                <!--实体类FileRecord.java (line 19)-->
+                <!--实体类FileRecord.java-->
                 <p><strong>Name:</strong> <span th:text="${sharedFile.originalName}">report.pdf</span></p>
                 <p><strong>Size:</strong> <span th:text="${sharedFile.fileSize}">1024</span></p>
                 <p><strong>Share code:</strong> <span th:text="${sharedFile.shareCode}">ABC12345</span></p>
             </div>
-            <!--生成链接地址like：/share/download/ABC12345。downloadSharedFile() in  ShareController.java (line 93)会再次验证分享码，加载文件资源，并返回下载响应-->
+            <!--生成链接地址like：/share/download/ABC12345。downloadSharedFile() in  ShareController.java会再次验证分享码，加载文件资源，并返回下载响应-->
             <a class="button-link" th:href="@{|/share/download/${sharedFile.shareCode}|}">Download Shared File</a>
         </section>
     </section>
