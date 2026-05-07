@@ -1,19 +1,19 @@
 package com.campusfasttransfer.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import jakarta.persistence.Column; //导入@Column注解，用来配置数据库表字段
+import jakarta.persistence.Entity; //导入@Entity注解，表示这是一个JPA实体类
+import jakarta.persistence.GeneratedValue; //导入@GeneratedValue注解，用来说明主键生成方式
+import jakarta.persistence.GenerationType; //导入主键生成策略枚举，比如自增
+import jakarta.persistence.Id; //导入@Id注解，用来标记主键字段
+import jakarta.persistence.Table; //导入@Table注解，用来指定实体对应哪张表
+import java.time.LocalDateTime; //导入Java时间类，表示日期和时间
 
 @Entity
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id //主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//主键值由数据库自动生成
     private Long id;
 
     @Column(nullable = false, length = 64)
@@ -26,10 +26,10 @@ public class User {
     private String identityNo;
 
     @Column(nullable = false, length = 32)
-    private String role;
+    private String role; //角色:user or admin 
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; //创建时间
 
     public User() {
     }

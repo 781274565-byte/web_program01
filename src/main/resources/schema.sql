@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS users (
     identity_no VARCHAR(32) NOT NULL,
     role VARCHAR(32) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    CONSTRAINT uk_users_username UNIQUE (username),
-    CONSTRAINT uk_users_identity_no UNIQUE (identity_no)
+    PRIMARY KEY (id), /*把id设为主键*/
+    CONSTRAINT uk_users_username UNIQUE (username), /*给username加唯一约束，用户名不能重复*/
+    CONSTRAINT uk_users_identity_no UNIQUE (identity_no) /*给identity_no加唯一约束，身份号不能重复*/
 );
 
 CREATE TABLE IF NOT EXISTS file_record (
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS file_record (
     owner_id BIGINT NOT NULL,
     uploaded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     is_deleted TINYINT(1) NOT NULL DEFAULT 0,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_file_owner FOREIGN KEY (owner_id) REFERENCES users (id)
+    PRIMARY KEY (id), /*把id设为主键*/
+    CONSTRAINT fk_file_owner FOREIGN KEY (owner_id) REFERENCES users (id) /*把owner_id设为外键，指向users的id，表示每个文件都属于某个用户*/
 );
 
 CREATE TABLE IF NOT EXISTS download_log (
@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS download_log (
     file_id BIGINT NOT NULL,
     downloader_name VARCHAR(64) NOT NULL,
     download_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    CONSTRAINT fk_log_file FOREIGN KEY (file_id) REFERENCES file_record (id)
+    PRIMARY KEY (id), /*把id设为主键*/
+    CONSTRAINT fk_log_file FOREIGN KEY (file_id) REFERENCES file_record (id) /*把file_id设为外键，关联到file_record，表示这条日志对应哪个文件*/
 );
 
 ALTER TABLE download_log MODIFY COLUMN downloader_name VARCHAR(64) NOT NULL;
